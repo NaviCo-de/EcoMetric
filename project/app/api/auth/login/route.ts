@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma";
 import bcrypt from "bcrypt";
 import  jwt  from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { TipePabrik } from "@prisma/client";
 
 export async function POST(req: Request) {
     try {
@@ -24,7 +25,8 @@ export async function POST(req: Request) {
 
         const payload = {
             id: user.id,
-            role: user.role
+            role: user.role,
+            tipePabrik: user.tipePabrik
         }
 
         const token = jwt.sign(payload, SECRET_KEY, {

@@ -74,6 +74,7 @@
   --text-b7: 16px;
   --text-b8: 14px;
   --text-b9: 12px;
+  --text-b10: 10px;
 
   --text-sh1: 60px;
   --text-sh2: 48px;
@@ -84,6 +85,7 @@
   --text-sh7: 16px;
   --text-sh8: 14px;
   --text-sh9: 12px;
+  --text-sh10: 10px;
 }
 
 @theme inline {
@@ -204,3 +206,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+

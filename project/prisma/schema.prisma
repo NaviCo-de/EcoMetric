@@ -18,13 +18,54 @@ enum Role {
   SUPERADMIN
 }
 
+enum TipePabrik {
+  PRODUSEN
+  DISTRIBUTOR
+  KONSUMEN
+}
+
+enum Kualitas {
+  GOOD
+  MODERATE
+  POOR
+}
+
 model Admin {
   id String @id @default(uuid())
   email String @unique
   nama String
   password String
   role Role @default(ADMIN)
+  tipePabrik TipePabrik @default(DISTRIBUTOR)
+
+  pabrikRelasi1 RantaiPasok[] @relation("pabrikRelasi1")
+  pabrikRelasi2 RantaiPasok[] @relation("pabrikRelasi2")
+  laporan Laporan[]
   passwordResetTokens PasswordResetToken[]
+}
+
+model Laporan {
+  id String @id @default(uuid())
+  createdAt DateTime @default(now())
+
+  skor Int
+  deskripsiAI String
+  status Kualitas
+
+  pabrik Admin @relation(fields: [pabrikId], references: [id], onDelete: Cascade)
+  pabrikId String
+}
+
+model RantaiPasok {
+  id String @id @default(uuid())
+
+  pabrikRelasi1 Admin @relation("pabrikRelasi1", fields: [pabrikRelasi1Id], references: [id])
+  pabrikRelasi1Id String
+
+  pabrikRelasi2 Admin @relation("pabrikRelasi2", fields: [pabrikRelasi2Id], references: [id])
+  pabrikRelasi2Id String
+
+  @@unique([pabrikRelasi1Id, pabrikRelasi2Id])
 }
 
 model PasswordResetToken {

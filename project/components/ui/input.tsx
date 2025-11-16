@@ -5,12 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const inputVariants = cva(
-  "px-5 py-2 duration-500",
+  "px-5 py-2 duration-500 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
   {
     variants: {
       variant: {
-        login: "bg-neutral-40 focus:bg-white not-placeholder-shown:bg-white border-blue-50 border rounded-md outline-0",
-        data: "bg-neutral-20 focus:bg-white not-placeholder-shown:bg-white border-neutral-70 border rounded-lg outline-0"
+        login: "bg-neutral-40 focus:bg-white border-blue-50 border rounded-md outline-0",
+        data: "bg-neutral-20 focus:bg-white border-neutral-70 border rounded-md outline-0 w-30 h-6 text-b10"
       }
     }
   }

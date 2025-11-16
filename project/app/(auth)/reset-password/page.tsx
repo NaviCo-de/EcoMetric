@@ -51,7 +51,7 @@ export default function resetPasswordPage() {
 
             setMessage(result.message);
             
-            router.push('/');
+            router.push('/login');
         } catch (err) {
             console.error('Error:', err);
             setMessage('Terjadi kesalahan saat login.');
