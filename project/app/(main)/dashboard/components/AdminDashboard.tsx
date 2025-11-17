@@ -2,6 +2,8 @@ import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 import jwt from 'jsonwebtoken';
 import prisma from '@/lib/prisma';
+import { Kualitas } from '@/components/ui/Kualitas';
+import PabrikCard from './PabrikCard';
 import {
   Accordion,
   AccordionContent,
@@ -76,27 +78,14 @@ export default async function AdminDashboard() {
       </div>
 
       <div className='w-full'>
-        <Accordion
-          type='single'
-          collapsible
-          className='w-full'
-          defaultValue='item-1'
-        >
-          <AccordionItem value='item-1' className='border border-red-500'>
-            <AccordionTrigger>{pabrikSaya.nama}</AccordionTrigger>
-            <AccordionContent className='flex flex-col gap-4 text-balance'>
-              <p>
-                Our flagship product combines cutting-edge technology with sleek
-                design. Built with premium materials, it offers unparalleled
-                performance and reliability.
-              </p>
-              <p>
-                Key features include advanced processing capabilities, and an
-                intuitive user interface designed for both beginners and experts.
-              </p>
-            </AccordionContent>
-          </AccordionItem>
+        <Accordion type="single" collapsible className="w-full">
+          <PabrikCard 
+            pabrik={pabrikSaya}
+          />
         </Accordion>
+        <Kualitas variant='GOOD'/>
+        <Kualitas variant='MODERATE'/>
+        <Kualitas variant='POOR'/>
       </div>
     </div>
   )

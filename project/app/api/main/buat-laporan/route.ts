@@ -12,12 +12,6 @@ type UserPayload = {
     tipePabrik: 'PRODUSEN' | 'DISTRIBUTOR' | 'KONSUMEN';
 }
 
-function getKualitas(skor: number): 'GOOD' | 'SEDANG' | 'BURUK' {
-  if (skor > 80) return 'GOOD';
-  if (skor > 50) return 'SEDANG';
-  return 'BURUK';
-}
-
 function getKualitasEnum(statusFromAI: string): Kualitas {
   const upperStatus = statusFromAI.toUpperCase();
   
@@ -46,10 +40,7 @@ export async function POST(req: Request) {
         const body = await req.json();
         const validInput = EQSSchema.parse(body);
 
-        console.log(validInput)
-        const aiBody = {
-            data: validInput
-        };
+        const aiBody = validInput
         const aiRes = await fetch("http://127.0.0.1:8000/predict", {
             method: 'POST',
             headers: { 
