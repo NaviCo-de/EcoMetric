@@ -5,6 +5,9 @@ export const registerSchema = z.object({
     email: z.string().email({ message: 'Email tidak valid' }),
     password: z.string().min(6, { message: 'Minimal 6 karakter' }),
     confirmPassword: z.string().min(1, { message: 'Confirm password wajib diisi'}),
+    tipePabrik: z.enum(['PRODUSEN', 'DISTRIBUTOR', 'KONSUMEN'], { message: 'Tipe Pabrik wajib dipilih' }),
+    lokasi: z.string().min(1, { message: 'Lokasi wajib diisi' }),
+    kontak: z.string().min(1, { message: 'Kontak wajib diisi' }),
 });
 
 export const loginSchema = z.object({

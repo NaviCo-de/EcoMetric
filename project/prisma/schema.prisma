@@ -37,9 +37,10 @@ model Admin {
   password String
   role Role @default(ADMIN)
   tipePabrik TipePabrik @default(DISTRIBUTOR)
-
-  pabrikRelasi1 RantaiPasok[] @relation("pabrikRelasi1")
-  pabrikRelasi2 RantaiPasok[] @relation("pabrikRelasi2")
+  rantaiId String?
+  rantai Rantai? @relation(fields: [rantaiId], references: [id])
+  lokasi String
+  kontak String
   laporan Laporan[]
   passwordResetTokens PasswordResetToken[]
 }
@@ -56,16 +57,10 @@ model Laporan {
   pabrikId String
 }
 
-model RantaiPasok {
+model Rantai {
   id String @id @default(uuid())
-
-  pabrikRelasi1 Admin @relation("pabrikRelasi1", fields: [pabrikRelasi1Id], references: [id])
-  pabrikRelasi1Id String
-
-  pabrikRelasi2 Admin @relation("pabrikRelasi2", fields: [pabrikRelasi2Id], references: [id])
-  pabrikRelasi2Id String
-
-  @@unique([pabrikRelasi1Id, pabrikRelasi2Id])
+  nama String?
+  members Admin[]
 }
 
 model PasswordResetToken {

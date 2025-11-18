@@ -32,9 +32,9 @@ export default function BuatLaporanPage({ userId }: { userId: string }) {
         }
     }
     return (
-        <div className='flex flex-col items-center gap-15 border border-red-500'>
+        <div className='flex flex-col items-center gap-15'>
             <h1 className='text-h3 text-blue-90 font-bold'>Buat Laporan</h1>
-            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center justify-center gap-15 border-3 border-red-500 w-full'>
+            <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col items-center justify-center gap-15 w-full'>
                 <div className='flex justify-evenly w-full'>
                     <div className='flex flex-col gap-6'>
                         <h2 className='text-sh6 font-semibold'>Kualitas Tanah</h2>

@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
     try {
-        const { nama, email, password, confirmPassword } = await req.json();
+        const { nama, email, password, confirmPassword, tipePabrik, lokasi, kontak } = await req.json();
 
         const existingUser = await prisma.admin.findUnique({ where: { email } });
 
@@ -16,7 +16,14 @@ export async function POST(req: Request) {
         const hashedPassword  = await bcrypt.hash(password, 10);
 
         const user = await prisma.admin.create({
-            data: {nama, email, password: hashedPassword}
+            data: {
+                nama, 
+                email, 
+                password: hashedPassword,
+                tipePabrik,
+                lokasi,
+                kontak
+            }
         })
 
         return NextResponse.json({ message: 'Registrasi Berhasil!', user })

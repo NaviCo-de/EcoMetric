@@ -21,7 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${nunitoSans.variable} ${nunitoSans.className} antialiased`}
+        className={`${nunitoSans.variable} ${nunitoSans.className} antialiased bg-neutral-10`}
       >
         {children}
       </body>
