@@ -8,13 +8,14 @@ import { z } from "zod";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 
 type LoginInput = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
     const router = useRouter();
     const [message, setMessage] = useState('');
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginInput>({
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginInput>({
         resolver: zodResolver(loginSchema)
     });
 
@@ -71,7 +72,16 @@ export default function LoginPage() {
                             <a className="text-right text-b9 text-yellow-60 font-extrabold hover:text-yellow-70 duration-300" href="/forget-password">Lupa Password?</a>
                         </div>
                         <div className="flex flex-col items-center justify-center gap-5">
-                            <Button type="submit" variant="auth" className="w-29 font-bold text-h7 text-white">Login</Button>
+                            <Button 
+                                type="submit" 
+                                variant="auth" 
+                                className="w-29 font-bold text-h7 text-white flex gap-2"
+                            >
+                                {isSubmitting &&(
+                                    <Spinner />
+                                )}
+                                {isSubmitting ? <p className="opacity-70">Memproses</p> : "Login"}
+                            </Button>
                         </div>
                     </form>
                     {message && <p className="mt-3 text-center text-red-500">{message}</p>}

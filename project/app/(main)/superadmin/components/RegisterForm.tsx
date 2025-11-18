@@ -17,6 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { Loader2 } from "lucide-react";
+import { Spinner } from "@/components/ui/spinner"
 
 
 type RegisterInput = z.infer<typeof registerSchema>;
@@ -24,7 +26,7 @@ type RegisterInput = z.infer<typeof registerSchema>;
 export default function RegisterForm({ onSuccess }: { onSuccess?: () => void}) {
     const router = useRouter();
     const [message, setMessage] = useState('');
-    const { register, handleSubmit, setValue, formState: { errors } } = useForm<RegisterInput>({
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<RegisterInput>({
         resolver: zodResolver(registerSchema),
     })
 
@@ -110,7 +112,18 @@ export default function RegisterForm({ onSuccess }: { onSuccess?: () => void}) {
                         </div>
 
                         <div className="flex flex-col items-center justify-center gap-5 mt-4">
-                            <Button type="submit" variant="auth" className="w-31 font-bold text-h7 text-white">Tambah Pabrik</Button>                        </div>
+                            <Button 
+                                type="submit" 
+                                variant="auth" 
+                                className="w-fit font-bold text-h7 text-white flex gap-2"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting && (
+                                     <Spinner /> 
+                                )}
+                                {isSubmitting ? <p className='opacity-70'>Memproses...</p> : "Tambah Pabrik"}
+                            </Button>                        
+                        </div>
                     </form>
                 </div>
             </div>

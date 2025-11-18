@@ -40,8 +40,10 @@ export async function POST(req: Request) {
         const body = await req.json();
         const validInput = EQSSchema.parse(body);
 
+        const API_URL = process.env.AI_API_URL
+        if(!API_URL) throw new Error("API_URL kosong!");
         const aiBody = validInput
-        const aiRes = await fetch("http://127.0.0.1:8000/predict", {
+        const aiRes = await fetch(API_URL, {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',

@@ -11,6 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion" 
+import NoPabrikCard from './NoPabrikCard';
 
 
 type UserPayload = {
@@ -78,162 +79,110 @@ async function getAdminDashboardData() {
 
   return { produsen, distributor, konsumen, pabrikSaya }
 }
+function InfoBox({ title, content }: { title: string, content?: string | null }) {
+  return (
+    <div className='w-full border border-neutral-20 px-7 py-4 bg-white rounded-lg mt-4 shadow-sm'>
+      <p className="font-semibold text-neutral-80 mb-2">{title}</p>
+      <p className="text-neutral-60 text-sm">
+        {content || 'Data tidak tersedia'}
+      </p>
+    </div>
+  );
+}
+
 export default async function AdminDashboard() {
   const { produsen, distributor, konsumen, pabrikSaya } = await getAdminDashboardData()
+  const hasRantai = !!pabrikSaya.rantaiId;
 
   return (
-    <div className='flex flex-col items-center w-full gap-10'>
+    <div className='flex flex-col items-center w-full gap-12'>
+      
+      {/* Header Judul */}
       <div>
         <h1 className='text-sh5'>
           Anda sebagai <span className='text-h3 text-blue-base font-bold'>{pabrikSaya.tipePabrik}</span>
         </h1>
       </div>
 
-      {pabrikSaya.tipePabrik === 'DISTRIBUTOR' &&
+      {hasRantai ? (
         <div className='flex justify-between gap-10 w-full'>
-          <div className='flex flex-col items-center justify-center w-1/2 h-fit'>
-            <h1 className='text-h4 text-blue-base font-bold'>Produsen <span className='text-sh5 text-black font-normal'>Anda</span></h1>
-            <div className='flex flex-col gap-5 w-full'>
-              <Accordion type="single" collapsible className="w-full">
-                <PabrikCard 
-                  pabrik={produsen!}
-                  isPabrikAnda={false}
-                />
-              </Accordion>
+          
+          <div className='flex flex-col items-center justify-start w-1/2 h-fit'>
+            
+            {pabrikSaya.tipePabrik === 'DISTRIBUTOR' && <h1 className='text-h4 text-blue-base font-bold mb-4'>Produsen Anda</h1>}
+            {pabrikSaya.tipePabrik === 'KONSUMEN' && <h1 className='text-h4 text-blue-base font-bold mb-4'>Produsen Anda</h1>}
+            {pabrikSaya.tipePabrik === 'PRODUSEN' && <h1 className='text-h4 text-blue-base font-bold mb-4'>Distributor Anda</h1>}
 
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Deskripsi:</p>
-                <p>{produsen?.laporan[0] ? produsen?.laporan[0].deskripsiAI : 'Belum ada deskripsi'}</p>
-              </div>
+            {(() => {
+               let partner = null;
+               if (pabrikSaya.tipePabrik !== 'PRODUSEN') partner = produsen;
+               else partner = distributor;
 
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Lokasi & Kontak:</p>
-                <p>{produsen?.lokasi}</p>
-                <p>{produsen?.kontak}</p>
-              </div>
-            </div>
+               if (!partner) return <p className="text-center text-neutral-50">Menunggu Partner...</p>;
+
+               return (
+                 <div className="w-full flex flex-col gap-2">
+                    <Accordion type="single" collapsible className="w-full">
+                      <PabrikCard pabrik={partner} isPabrikAnda={false} />
+                    </Accordion>
+
+                    <InfoBox 
+                      title="Deskripsi:" 
+                      content={partner.laporan[0]?.deskripsiAI || "Belum ada deskripsi."} 
+                    />
+
+                    <InfoBox 
+                      title="Lokasi & Kontak:" 
+                      content={`${partner.lokasi || '-'} | ${partner.kontak || '-'}`} 
+                    />
+                 </div>
+               );
+            })()}
           </div>
 
-          <div className='flex flex-col items-center justify-center w-1/2 h-fit'>
-            <h1 className='text-h4 text-blue-base font-bold'>Konsumen <span className='text-sh5 text-black font-normal'>Anda</span></h1>
-            <div className='flex flex-col gap-5 w-full'>
-              <Accordion type="single" collapsible className="w-full">
-                <PabrikCard 
-                  pabrik={konsumen!}
-                />
-              </Accordion>
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Deskripsi:</p>
-                <p>{konsumen?.laporan[0] ? konsumen?.laporan[0].deskripsiAI : 'Belum ada deskripsi'}</p>
-              </div>
 
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Lokasi & Kontak:</p>
-                <p>{konsumen?.lokasi}</p>
-                <p>{konsumen?.kontak}</p>
-              </div>
-            </div>
+
+          <div className='flex flex-col items-center justify-start w-1/2 h-fit'>
+            
+            {pabrikSaya.tipePabrik === 'DISTRIBUTOR' && <h1 className='text-h4 text-blue-base font-bold mb-4'>Konsumen Anda</h1>}
+            {pabrikSaya.tipePabrik === 'PRODUSEN' && <h1 className='text-h4 text-blue-base font-bold mb-4'>Konsumen Anda</h1>}
+            {pabrikSaya.tipePabrik === 'KONSUMEN' && <h1 className='text-h4 text-blue-base font-bold mb-4'>Distributor Anda</h1>}
+
+
+            {(() => {
+               let partner = null;
+               if (pabrikSaya.tipePabrik !== 'KONSUMEN') partner = konsumen;
+               else partner = distributor;
+
+               if (!partner) return <p className="text-center text-neutral-50">Menunggu Partner...</p>;
+
+               return (
+                 <div className="w-full flex flex-col gap-2">
+                    <Accordion type="single" collapsible className="w-full">
+                       <PabrikCard pabrik={partner} isPabrikAnda={false} />
+                    </Accordion>
+
+                    <InfoBox 
+                      title="Deskripsi:" 
+                      content={partner.laporan[0]?.deskripsiAI || "Belum ada deskripsi."} 
+                    />
+
+                    <InfoBox 
+                      title="Lokasi & Kontak:" 
+                      content={`${partner.lokasi || '-'} | ${partner.kontak || '-'}`} 
+                    />
+                 </div>
+               );
+            })()}
           </div>
+          
         </div>
-      }
-
-      {pabrikSaya.tipePabrik === 'KONSUMEN' &&
-        <div className='flex justify-between gap-10 w-full'>
-          <div className='flex flex-col items-center justify-center w-1/2 h-fit'>
-            <h1 className='text-h4 text-blue-base font-bold'>Produsen <span className='text-sh5 text-black font-normal'>Anda</span></h1>
-            <div className='flex flex-col gap-5 w-full'>
-              <Accordion type="single" collapsible className="w-full">
-                <PabrikCard 
-                  pabrik={produsen!}
-                  isPabrikAnda={false}
-                />
-              </Accordion>
-
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Deskripsi:</p>
-                <p>{produsen?.laporan[0] ? produsen?.laporan[0].deskripsiAI : 'Belum ada deskripsi'}</p>
-              </div>
-
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Lokasi & Kontak:</p>
-                <p>{produsen?.lokasi}</p>
-                <p>{produsen?.kontak}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className='flex flex-col items-center justify-center w-1/2 h-fit'>
-            <h1 className='text-h4 text-blue-base font-bold'>Distributor <span className='text-sh5 text-black font-normal'>Anda</span></h1>
-            <div className='flex flex-col gap-5 w-full'>
-              <Accordion type="single" collapsible className="w-full">
-                <PabrikCard 
-                  pabrik={distributor!}
-                />
-              </Accordion>
-
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Deskripsi:</p>
-                <p>{distributor?.laporan[0] ? distributor?.laporan[0].deskripsiAI : 'Belum ada deskripsi'}</p>
-              </div>
-
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Lokasi & Kontak:</p>
-                <p>{distributor?.lokasi}</p>
-                <p>{distributor?.kontak}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
-
-      {pabrikSaya.tipePabrik === 'PRODUSEN' &&
-        <div className='flex justify-between gap-10 w-full'>
-          <div className='flex flex-col items-center justify-center w-1/2 h-fit'>
-            <h1 className='text-h4 text-blue-base font-bold'>Distributor <span className='text-sh5 text-black font-normal'>Anda</span></h1>
-            <div className='flex flex-col gap-5 w-full'>
-              <Accordion type="single" collapsible className="w-full">
-                <PabrikCard 
-                  pabrik={distributor!}
-                  isPabrikAnda={false}
-                />
-              </Accordion>
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Deskripsi:</p>
-                <p>{distributor?.laporan[0] ? distributor?.laporan[0].deskripsiAI : 'Belum ada deskripsi'}</p>
-              </div>
-
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Lokasi & Kontak:</p>
-                <p>{distributor?.lokasi}</p>
-                <p>{distributor?.kontak}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className='flex flex-col items-center justify-center w-1/2 h-fit'>
-            <h1 className='text-h4 text-blue-base font-bold'>Konsumen <span className='text-sh5 text-black font-normal'>Anda</span></h1>
-            <div className='flex flex-col gap-5 w-full'>
-              <Accordion type="single" collapsible className="w-full">
-                <PabrikCard 
-                  pabrik={konsumen!}
-                />
-              </Accordion>
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Deskripsi:</p>
-                <p>{konsumen?.laporan[0] ? konsumen?.laporan[0].deskripsiAI : 'Belum ada deskripsi'}</p>
-              </div>
-
-              <div className='w-full border border-neutral-base  px-7 py-4'>
-                <p>Lokasi & Kontak:</p>
-                <p>{konsumen?.lokasi}</p>
-                <p>{konsumen?.kontak}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      }
+      ) : (
+        <NoPabrikCard />
+      )}
 
 
+      {/* --- BAGIAN PABRIK SAYA (TETAP SAMA - Tanpa Kotak Info Tambahan) --- */}
       <div className='w-full flex flex-col justify-center items-center gap-7'>
         <h1 className='text-h4 text-blue-base font-bold'>Pabrik <span className='text-sh5 text-black font-normal'>Anda</span></h1>
         <Accordion type="single" collapsible className="w-full">

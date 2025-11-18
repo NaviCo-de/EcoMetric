@@ -48,7 +48,6 @@ export default function BuatRantaiForm({ onSuccess }: { onSuccess: () => void })
         setError('');
         setLoading(true);
 
-        // Validasi sederhana
         if (!selectedProdusen || !selectedDistributor || !selectedKonsumen) {
             setError("Harap pilih semua pihak (Produsen, Distributor, dan Konsumen).");
             setLoading(false);

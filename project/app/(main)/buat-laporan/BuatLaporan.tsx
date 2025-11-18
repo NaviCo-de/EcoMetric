@@ -19,14 +19,21 @@ export default function BuatLaporanPage({ userId }: { userId: string }) {
 
     const onSubmit = async (data: EQSInput) => {
         try {
-            const res = await fetch("http://localhost:3000/api/main/buat-laporan", {
+            const res = await fetch("/api/main/buat-laporan", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(data),
             })
+            
+            if (!res.ok) {
+                const result = await res.json();
+                setMessage(result.EQS || result.detail);
+                return;
+            }
 
             const result = await res.json();
             setMessage(result.EQS || result.detail);
+            redirect('/dashboard')
         } catch (err) {
             console.log(err)
         }
