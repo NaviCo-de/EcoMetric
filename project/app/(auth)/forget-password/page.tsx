@@ -66,8 +66,10 @@ export default function LoginPage() {
                                 {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
                             </div>
                         </div>
-                        <div className="flex flex-col items-center justify-center gap-5">
+                        <div className="flex flex-col items-center justify-center gap-2">
                             <Button type="submit" variant="auth" className="w-fit font-bold text-h7 text-white">Kirim ke e-mail</Button>
+                            <a className="hover:underline text-center text-b8 text-yellow-60 font-extrabold hover:text-yellow-70 duration-300" href="/login">Kembali</a>
+
                         </div>
                     </form>
                     {message && <p className="mt-3 text-center text-red-500">{message}</p>}
