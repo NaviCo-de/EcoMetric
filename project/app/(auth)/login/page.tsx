@@ -84,7 +84,6 @@ export default function LoginPage() {
                             </Button>
                         </div>
                     </form>
-                    {message && <p className="mt-3 text-center text-red-500">{message}</p>}
                 </div>
             </div>
 

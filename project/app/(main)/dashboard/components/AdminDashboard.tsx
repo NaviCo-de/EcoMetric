@@ -81,9 +81,9 @@ async function getAdminDashboardData() {
 }
 function InfoBox({ title, content }: { title: string, content?: string | null }) {
   return (
-    <div className='w-full border border-neutral-20 px-7 py-4 bg-white rounded-lg mt-4 shadow-sm'>
+    <div className='w-full border border-neutral-base px-7 py-4 bg-neutral-20 mt-4'>
       <p className="font-semibold text-neutral-80 mb-2">{title}</p>
-      <p className="text-neutral-60 text-sm">
+      <p className="text-neutral-80">
         {content || 'Data tidak tersedia'}
       </p>
     </div>
