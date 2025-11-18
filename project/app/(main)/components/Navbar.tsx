@@ -185,7 +185,7 @@ export default function Navbar({ role }: NavbarProps) {
                             </SheetHeader>
                             
                             <div className="flex flex-col py-4 mt-4">
-                                <div className="px-4 py-3 hover:bg-yellow-10 rounded-md cursor-pointer transition-colors">
+                                <div className="px-4 py-3 hover:bg-yellow-10 cursor-pointer transition-colors">
                                     <div className="flex justify-between items-center">
                                         <p className="text-sh7 font-medium">Akun Saya</p>
                                         <Image 
@@ -198,7 +198,7 @@ export default function Navbar({ role }: NavbarProps) {
                                     </div>
                                 </div>
 
-                                <div className="px-4 py-3 hover:bg-yellow-10 rounded-md cursor-pointer transition-colors mt-2">
+                                <div className="px-4 py-3 hover:bg-yellow-10 cursor-pointer transition-colors mt-2">
                                     <button
                                         onClick={handleLogout}
                                         disabled={isPending}
