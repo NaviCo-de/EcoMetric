@@ -68,7 +68,6 @@ export default function LoginPage() {
                         </div>
                         <div className="flex flex-col items-center justify-center gap-5">
                             <Button type="submit" variant="auth" className="w-fit font-bold text-h7 text-white">Kirim ke e-mail</Button>
-                            <p className="font-bold text-b9 text-blue-base">Belum Punya Akun? <a href="/register" className="text-yellow-60 hover:text-yellow-70 duration-300">Daftar Disini</a></p>
                         </div>
                     </form>
                     {message && <p className="mt-3 text-center text-red-500">{message}</p>}
