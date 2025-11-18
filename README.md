@@ -27,8 +27,8 @@ Sebelum memulai, pastikan Anda telah menginstal:
 
 1.  **Node.js** (Versi 18 atau lebih baru)
 2.  **npm** atau **yarn**
-3.  **PostgreSQL Database** (Direkomendasikan menggunakan [NeonDB](https://neon.tech) untuk cloud, atau lokal).
-4.  **Backend AI** (Pastikan server AI Python Anda berjalan di `http://127.0.0.1:8000`).
+3.  **PostgreSQL Database**.
+4.  **Backend AI**.
 
 ---
 
